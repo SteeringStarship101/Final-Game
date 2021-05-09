@@ -2,7 +2,7 @@ var player;
 var enemy;
 
 var gamestate = 0;
-var health = 100;
+var health = 10;
 var score = 0;
 var invisibleWall1;
 var invisibleWall2;
@@ -21,6 +21,8 @@ var pointScore = 0;
 var pointGroup;
  var backgroundimg;
  var playerImg;
+ var start
+ var startimg;
 function preload()
 {
 EnemyImg1 = loadImage("Enemy1.png");
@@ -29,6 +31,7 @@ EnemyImg3 = loadImage("Enemy3.PNG");
 pointImage = loadImage("Point.png");
 playerImg = loadImage("Player.png");
 backgroundimg = loadImage("Background.jpg");
+startimg = loadImage("Start.png");
 }
 function setup() {
   createCanvas(displayWidth,displayHeight-72 );
@@ -50,6 +53,12 @@ function setup() {
  
  invisibleWall4 = createSprite(1250,5,5000,10)
  invisibleWall4.visible = false;
+
+
+ start = createSprite(displayWidth/2-100,displayHeight/2-200);
+ start.addImage(startimg);
+ start.scale = 0.5;
+ start.visible = false;
 }
 
 function draw() {
@@ -71,10 +80,11 @@ function draw() {
    textFont("arian");
    pointGroup.destroyEach();
    text("ARROW KEYS FOR MOVEMENT ",displayWidth/2-120,displayHeight/2-50);
-   text("HOLD SPACE TO DESTROY YOUR ENEMY ",displayWidth/2-120,displayHeight/2-20);
+   text("CLICK ON START TO BEGIN ",displayWidth/2-120,displayHeight/2-20);
    text(" PRESS SPACE TO START ",displayWidth/2-120,displayHeight/2+10);
+   start.visible = true;
    player.visible = false;
-   if(keyDown("space")&&gamestate==0){
+   if(mousePressedOver(start)&&gamestate==0){
       gamestate = 1;
       
     
@@ -84,6 +94,7 @@ function draw() {
   if(gamestate===1)
   {
     player.visible = true;  
+    start.visible = false;
     if(frameCount%90===0)
     {
       score = score+1
@@ -165,7 +176,7 @@ function draw() {
  if(health<1&&gamestate===1){
   gamestate = 2
 }
- if(keyDown("r")&&gamestate===2){
+ if(keyDown("R")&&gamestate===2){
   gamestate = 0 ;
   player.visible = true;
   score.visible = true;
